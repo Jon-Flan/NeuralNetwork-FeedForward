@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>Neural Network</title>
+    <script type="text/javascript" src="./matrix.js"></script>
+    <script type="text/javascript" src="./neuralNet.js"></script>
+    
+</head>
+<body>
+    <script>
+
+        const AUTOMATION_ON = true;
+        //neural network params
+        const NUM_INPUTS = 2;
+        const NUM_HIDDEN = 10;
+        const NUM_OUTPUTS = 1;
+        const NUM_SAMPLES = 50000;
+        const THRESHOLD = 0.05;
+        //new neural network
+        var nn;
+
+        if(AUTOMATION_ON){
+
+            nn = new NeuralNetwork(NUM_INPUTS,NUM_HIDDEN,NUM_OUTPUTS);
+
+            //train the network
+            for(let i = 0; i < NUM_SAMPLES; i++){
+
+                //TEST XOR Gate Logic
+                // 0 0 = 0
+                // 0 1 = 1
+                // 1 0 = 1
+                // 1 1 = 0
+
+                //inputs
+                let input0 = Math.round(Math.random()); //produces a 0 or 1
+                let input1 = Math.round(Math.random()); //produces a 0 or 1
+
+                //desired output to XOR gate logic (conditional statement, if input0 = input1 should be 0 else 1)
+                let output = input0 == input1 ? 0 : 1;
+
+                //train 
+                nn.train([input0,input1], [output]);
+            }
+
+            //input variables
+            var a = 0;
+            var b = 0;
+
+            //use the network
+            var network = nn.feedForward([a,b]).data;
+
+            //answer variable
+            var answer = ""
+
+            //get answer from network
+            if(network > (1 - THRESHOLD)){
+                answer= "Yes";
+            }else if(network < (0 + THRESHOLD)){
+                answer = "No"
+            }else{
+                answer = "Not sure"
+            }
+
+            //test the output
+            console.log(answer);
+        }
+    </script>
+</body>
+</html>
